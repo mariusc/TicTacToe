@@ -10,5 +10,6 @@ and it only knows that the game is played by two players. If, for example, in th
 next move for a player, the engine would still work just as before.
 
 Possible further developments:
-1. AI
-2. network module
+1. Score keeping
+2. AI
+3. network module
