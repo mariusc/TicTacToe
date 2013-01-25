@@ -1,9 +1,7 @@
 package tictactoe.brain;
 
 import tictactoe.gui.Gui;
-import tictactoe.gui.Gui;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class EngineImpl, which implements the Engine Interface.
  */
@@ -143,12 +141,11 @@ public class EngineImpl implements Engine {
 		if (cellIsEmpty(i, j)) {
 			toReturn = 1;
 			clicks ++;
-			if (clicks >= Constants.boardSize*Constants.boardSize)
+			if (clicks > Constants.boardSize*Constants.boardSize)
 				toReturn = 3;
 			// mark on gui the new move
 			Board.board[i][j] = turn;
 			if (checkWin(i, j, turn)){
-				System.out.println(turn + " won");
 				toReturn = 2;
 			}
 	
