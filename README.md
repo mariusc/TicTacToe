@@ -19,3 +19,5 @@ Possible further developments:
 2. AI
 
 3. network module
+
+There is also a ZIP available, with the Eclipse Project. To run the software, run it as an Applet. Set the Applet Window size to 800 x 800 under Run Configurations -> Parameters
