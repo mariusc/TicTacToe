@@ -1,6 +1,7 @@
 package tictactoe.brain;
 
 import tictactoe.gui.Gui;
+import tictactoe.gui.Gui;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -13,6 +14,9 @@ public class EngineImpl implements Engine {
 	
 	/** The gui. */
 	Gui gui;
+	
+	/** The clicks. */
+	int clicks = 1;
 
 	/**
 	 * Instantiates a new engine impl.
@@ -66,25 +70,57 @@ public class EngineImpl implements Engine {
 	 * @return true, if won
 	 */
 	private boolean checkWin(int x, int y, int player){
+		int c1, c2;
 		//check line
-		if (countOccurences(x, y, player, -1, 0)
-				+ countOccurences(x, y, player, 1, 0) + 1 >= Constants.winningSize)
+		c1 = countOccurences(x, y, player, -1, 0);
+		c2 = countOccurences(x, y, player, 1, 0);
+		if (c1 + c2 + 1 >= Constants.winningSize){
+			Board.board[x][y] += 10;
+			for (int k = 1; k <= c1; k++)
+				Board.board[x][y-k] += 10;
+			for (int k = 1; k <= c2; k++)
+				Board.board[x][y+k] += 10;
+			
 			return true;
+		}
 		// check column
-		if (countOccurences(x, y, player, 0, -1)
-				+ countOccurences(x, y, player, 0, 1) + 1 >= Constants.winningSize)
+		c1 = countOccurences(x, y, player, 0, -1);
+		c2 = countOccurences(x, y, player, 0, 1);
+		if (c1 + c2 + 1 >= Constants.winningSize){
+			Board.board[x][y] += 10;
+			for (int k = 1; k <= c1; k++)
+				Board.board[x-k][y] += 10;
+			for (int k = 1; k <= c2; k++)
+				Board.board[x+k][y] += 10;
+			
 			return true;
+		}
 		// check 1st digonal or parallels
-		if (countOccurences(x, y, player, -1, -1)
-				+ countOccurences(x, y, player, 1, 1) + 1 >= Constants.winningSize)
+		c1 = countOccurences(x, y, player, -1, -1);
+		c2 = countOccurences(x, y, player, 1, 1);
+		if (c1 + c2+ 1 >= Constants.winningSize){
+			Board.board[x][y] += 10;
+			for (int k = 1; k <= c1; k++)
+				Board.board[x-k][y-k] += 10;
+			for (int k = 1; k <= c2; k++)
+				Board.board[x+k][y+k] += 10;
+			
 			return true;
+		}
 		// check 2nd digonal or parallels
-		if (countOccurences(x, y, player, -1, 1)
-				+ countOccurences(x, y, player, 1, -1) + 1 >= Constants.winningSize)
+		c1 = countOccurences(x, y, player, -1, 1);
+		c2 = countOccurences(x, y, player, 1, -1);
+		if (c1 + c2 + 1 >= Constants.winningSize){
+			Board.board[x][y] += 10;
+			for (int k = 1; k <= c1; k++)
+				Board.board[x+k][y-k] += 10;
+			for (int k = 1; k <= c2; k++)
+				Board.board[x-k][y+k] += 10;
+			
 			return true;
+		}
 		return false;
 	}
-	
 
 	/**
 	 * Checks if cell at i, j is empty.
@@ -102,23 +138,30 @@ public class EngineImpl implements Engine {
 	/* (non-Javadoc)
 	 * @see tictactoe.brain.Engine#clickedCell(int, int)
 	 */
-	public boolean clickedCell(int i, int j) {
-
+	public int clickedCell(int i, int j) {
+		int toReturn = 0;
 		if (cellIsEmpty(i, j)) {
+			toReturn = 1;
+			clicks ++;
+			if (clicks >= Constants.boardSize*Constants.boardSize)
+				toReturn = 3;
 			// mark on gui the new move
 			Board.board[i][j] = turn;
-			if (checkWin(i, j, turn))
+			if (checkWin(i, j, turn)){
 				System.out.println(turn + " won");
+				toReturn = 2;
+			}
 	
+			Board.printBoard();
 			// change turn
 			if (turn == Constants.x) {
 				turn = Constants.o;
 			} else {
 				turn = Constants.x;
 			}
-			return true;
+			
 		}
-		return false;
+		return toReturn;
 
 	}
 
@@ -128,6 +171,11 @@ public class EngineImpl implements Engine {
 	@Override
 	public int[][] getBoard() {
 		return Board.board;
+	}
+
+	@Override
+	public int getTurn() {
+		return turn;
 	}
 
 }

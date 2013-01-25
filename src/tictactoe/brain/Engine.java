@@ -12,9 +12,12 @@ public interface Engine {
 	 *
 	 * @param i the i
 	 * @param j the j
-	 * @return true, if successful
+	 * @return 	0 if cell is occupied, 
+	 * 			1 if cell is empty  
+	 * 			2 if smbdy won, 
+	 * 			3 if nobody won
 	 */
-	boolean clickedCell(int i, int j);
+	int clickedCell(int i, int j);
 	
 	
 	/**
@@ -24,6 +27,13 @@ public interface Engine {
 	 */
 	int [][] getBoard();
 	
+	
+	/**
+	 * Gets whose player turn it is.
+	 *
+	 * @return the turn
+	 */
+	int getTurn();
 	
 	
 
